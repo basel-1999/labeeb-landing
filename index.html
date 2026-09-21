@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>انضم كمعلم في منصة لبيب - مستقبل التعليم في قطر</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- مكتبة الأيقونات لرسم أجهزة دقيقة (تابلت/لابتوب) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Firebase Web SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        oliveGreen: '#4E6B45',
+                        oliveLight: '#708E67',
+                        beigeBg: '#F4EFE6',
+                        beigeCard: '#FAF7F2',
+                        textDark: '#1E241B',
+                        accentGold: '#C79A3B',
+                        accentOrange: '#D97706',
+                    },
+                    fontFamily: { cairo: ['Cairo', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #F4EFE6; }
+        .snackbar { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 14px 24px; border-radius: 12px; color: white; font-weight: bold; z-index: 9999; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { bottom: -50px; opacity: 0; } to { bottom: 20px; opacity: 1; } }
+        .hidden-step { display: none; }
+    </style>
+</head>
+<body class="text-textDark">
+
+    <!-- Header / Hero Section -->
+    <div class="max-w-5xl mx-auto px-6 pt-16 pb-8 text-center">
+        <img src="logo.png" alt="لوجو لبيب" class="h-32 w-auto mx-auto mb-8 object-contain">
+        
+        <h1 class="text-3xl md:text-5xl font-black mb-6 leading-tight">
+            هل تريد أن تكون جزءاً من <span class="text-oliveGreen">مستقبل التعليم</span> في قطر؟
+        </h1>
+        
+        <p class="text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto mb-6">
+            منصتنا الذكية تحول حصتك لتجربة تفاعلية ممتعة، وتساعدك على متابعة كل طالب لحظياً واكتشاف نقاط القوة لتعزيزها ونقاط الضعف لمعالجتها، وتكتشف فجوات التعلم قبل الاختبارات، بدون تحضير إضافي أو عبء إداري.
+        </p>
+        
+        <div class="bg-oliveGreen text-white text-lg md:text-xl font-bold py-3 px-6 rounded-2xl inline-block shadow-lg">
+            في <span class="text-accentGold">لبيب</span> نحن لا نستبدل المعلم، بل نمكنه. انضم لنا الآن وحقق زيادة في الدخل!
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="bg-white py-12 px-6 shadow-inner">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold mb-10 text-center">لماذا تنضم إلينا كمعلم في منصة لبيب التعليمية؟</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-beigeCard p-6 rounded-3xl border border-oliveGreen/10 shadow-sm">
+                    <h3 class="text-lg font-bold mb-2 text-accentGold">25 ريال قطري للساعة</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">سيحصل المعلم على 25 ريال قطري مقابل ساعة عمل فعلي على المنصة.</p>
+                </div>
+                <div class="bg-beigeCard p-6 rounded-3xl border border-oliveGreen/10 shadow-sm">
+                    <h3 class="text-lg font-bold mb-2 text-oliveGreen">ضمان مادي للمعلم</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">يتعامل المعلم مع إدارة المنصة فقط في الأمور المالية، ويتم التحويل لحسابه البنكي بناءً على عدد الدقائق شهرياً.</p>
+                </div>
+                <div class="bg-beigeCard p-6 rounded-3xl border border-oliveGreen/10 shadow-sm">
+                    <h3 class="text-lg font-bold mb-2 text-accentOrange">مرونة في الوقت</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">يقبل المعلم طلبات الطلاب بحسب المواعيد التي تناسب وقت فراغه للعمل على المنصة.</p>
+                </div>
+                <div class="bg-beigeCard p-6 rounded-3xl border border-oliveGreen/10 shadow-sm">
+                    <h3 class="text-lg font-bold mb-2 text-oliveGreen">وداعاً للعبء الإداري</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">لا يوجد اي شروط ادارية يُقيد بها المعلم سوي الالتزام بالملاحظات التي يقدمها الطالب.</p>
+                </div>
+                <div class="bg-beigeCard p-6 rounded-3xl border border-oliveGreen/10 shadow-sm">
+                    <h3 class="text-lg font-bold mb-2 text-accentGold">تفاعل داخل الحصة</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">تدعم المنصة مبدأ التلعيب مما يجعل دور الطالب إيجابياً ويكسر الجمود بين المعلم والطالب.</p>
+                </div>
+                <div class="bg-oliveGreen p-6 rounded-3xl shadow-xl flex items-center justify-center">
+                    <button onclick="document.getElementById('registrationForm').scrollIntoView({behavior: 'smooth'})" class="w-full text-center bg-white text-oliveGreen text-lg font-black py-3 px-6 rounded-xl hover:bg-beigeBg transition">
+                        ابدأ التقديم الآن 🚀
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Form Section -->
+    <div id="registrationForm" class="py-16 px-6">
+        <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
+            
+            <!-- Step 1: Form -->
+            <div id="step-1" class="step-content">
+                <h2 class="text-2xl font-bold mb-2 text-oliveGreen">تسجيل معلم جديد</h2>
+                <p class="text-sm text-gray-500 mb-6">يرجى تعبئة البيانات بدقة لضمان قبول طلبك.</p>
+                
+                <div class="space-y-4">
+                    <!-- رقم الجوال -->
+                    <div>
+                        <label class="text-sm font-bold block mb-1">رقم الجوال</label>
+                        <div class="flex items-center bg-beigeCard rounded-xl overflow-hidden">
+                            <select id="countryCode" class="bg-transparent py-3 px-2 font-bold text-sm focus:outline-none">
+                                <option value="+974">🇶🇦 +974</option>
+                                <option value="+966">🇸🇦 +966</option>
+                                <option value="+970">🇵🇸 +970</option>
+                                <option value="+971">🇦🇪 +971</option>
+                                <option value="+965">🇰🇼 +965</option>
+                                <option value="+962">🇯🇴 +962</option>
+                                <option value="+20">🇪🇬 +20</option>
+                            </select>
+                            <div class="h-5 w-px bg-gray-300 mx-1"></div>
+                            <input type="tel" id="phoneNumber" placeholder="5xxxxxxxx" class="bg-transparent py-3 px-2 flex-1 focus:outline-none text-sm">
+                        </div>
+                    </div>
+
+                    <!-- الاسم -->
+                    <div>
+                        <label class="text-sm font-bold block mb-1">الاسم رباعي بالكامل</label>
+                        <input type="text" id="fullName" placeholder="كما هو في الهوية" class="w-full bg-beigeCard rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-oliveGreen">
+                    </div>
+
+                    <!-- الدولة والمدينة -->
+                    <div class="flex gap-2">
+                        <div class="flex-1">
+                            <label class="text-sm font-bold block mb-1">الدولة</label>
+                            <select id="country" class="w-full bg-beigeCard rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-oliveGreen">
+                                <option value="">اختر الدولة</option>
+                                <option>المملكة العربية السعودية</option>
+                                <option>قطر</option>
+                                <option>فلسطين</option>
+                                <option>جمهورية مصر العربية</option>
+                                <option>الإمارات العربية المتحدة</option>
+                                <option>الأردن</option>
+                            </select>
+                        </div>
+                        <div class="flex-1">
+                            <label class="text-sm font-bold block mb-1">المدينة</label>
+                            <select id="city" class="w-full bg-beigeCard rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-oliveGreen">
+                                <option value="">اختر المدينة</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- التخصصات -->
+                    <div>
+                        <label class="text-sm font-bold block mb-2">اختر التخصصات التي تدرسها (يمكنك اختيار أكثر من تخصص):</label>
+                        <div id="specialtyList" class="flex flex-wrap gap-2 max-h-48 overflow-y-auto p-2 bg-gray-50 rounded-xl"></div>
+                    </div>
+
+                    <!-- الفئة العمرية -->
+                    <div>
+                        <label class="text-sm font-bold block mb-2">الفئة العمرية / الصفوف التي تدرسها (يمكن اختيار أكثر من فئة):</label>
+                        <div id="targetAgeList" class="flex flex-wrap gap-2 max-h-40 overflow-y-auto p-2 bg-gray-50 rounded-xl"></div>
+                    </div>
+
+                    <!-- لغة التدريس -->
+                    <div>
+                        <label class="text-sm font-bold block mb-2">هل تستطيع التدريس باللغة العربية أم الإنجليزية (انترناشونال)؟</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" id="lang_ar" onclick="selectTeachingLanguage('العربية')"
+                                class="teaching-lang-btn flex flex-col items-center justify-center gap-1 py-3 px-2 rounded-xl border-2 border-gray-200 bg-white text-textDark text-xs font-bold transition hover:border-oliveGreen/50">
+                                <span class="text-2xl">🇸🇦</span>
+                                <span>العربية</span>
+                            </button>
+                            <button type="button" id="lang_en" onclick="selectTeachingLanguage('الإنجليزية (انترناشونال)')"
+                                class="teaching-lang-btn flex flex-col items-center justify-center gap-1 py-3 px-2 rounded-xl border-2 border-gray-200 bg-white text-textDark text-xs font-bold transition hover:border-oliveGreen/50">
+                                <span class="text-2xl">🌍</span>
+                                <span>English (International)</span>
+                            </button>
+                            <button type="button" id="lang_both" onclick="selectTeachingLanguage('كلاهما')"
+                                class="teaching-lang-btn flex flex-col items-center justify-center gap-1 py-3 px-2 rounded-xl border-2 border-gray-200 bg-white text-textDark text-xs font-bold transition hover:border-oliveGreen/50">
+                                <span class="text-2xl">🌐</span>
+                                <span>كلاهما</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- الأجهزة المملوكة (تم استخدام أيقونات احترافية لكل جهاز) -->
+                    <div>
+                        <label class="text-sm font-bold block mb-2">هل تمتلك جهاز (هاتف محمول , تابلت , لابتوب)؟ (يمكنك اختيار أكثر من جهاز):</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" id="dev_phone" onclick="toggleDeviceSelection('هاتف محمول')"
+                                class="device-btn flex flex-col items-center justify-center gap-1 py-3 px-2 rounded-xl border-2 border-gray-200 bg-white text-textDark text-xs font-bold transition hover:border-oliveGreen/50">
+                                <i class="fas fa-mobile-screen-button text-2xl"></i>
+                                <span>هاتف محمول</span>
+                            </button>
+                            <button type="button" id="dev_tablet" onclick="toggleDeviceSelection('تابلت')"
+                                class="device-btn flex flex-col items-center justify-center gap-1 py-3 px-2 rounded-xl border-2 border-gray-200 bg-white text-textDark text-xs font-bold transition hover:border-oliveGreen/50">
+                                <i class="fas fa-tablet-screen-button text-2xl"></i>
+                                <span>تابلت</span>
+                            </button>
+                            <button type="button" id="dev_laptop" onclick="toggleDeviceSelection('لابتوب')"
+                                class="device-btn flex flex-col items-center justify-center gap-1 py-3 px-2 rounded-xl border-2 border-gray-200 bg-white text-textDark text-xs font-bold transition hover:border-oliveGreen/50">
+                                <i class="fas fa-laptop text-2xl"></i>
+                                <span>لابتوب</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- رفع الملفات -->
+                    <div>
+                        <label class="text-sm font-bold block mb-2">رفع الشهادة الجامعية (PDF/صورة)</label>
+                        <input type="file" id="certFile" accept=".pdf,.jpg,.jpeg,.png" class="hidden" onchange="updateFileName('cert')">
+                        <div id="certUploadBox" onclick="document.getElementById('certFile').click()" class="border-2 border-dashed border-oliveGreen/50 rounded-xl p-4 text-center text-sm text-oliveGreen cursor-pointer hover:bg-oliveGreen/5">
+                            اضغط لاختيار ملف الشهادة
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-sm font-bold block mb-2">رفع الهوية الشخصية (PDF/صورة)</label>
+                        <input type="file" id="idFile" accept=".pdf,.jpg,.jpeg,.png" class="hidden" onchange="updateFileName('id')">
+                        <div id="idUploadBox" onclick="document.getElementById('idFile').click()" class="border-2 border-dashed border-oliveGreen/50 rounded-xl p-4 text-center text-sm text-oliveGreen cursor-pointer hover:bg-oliveGreen/5">
+                            اضغط لاختيار ملف الهوية
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-sm font-bold block mb-2">رفع أقوى شهادة خبرة (PDF/صورة)</label>
+                        <input type="file" id="expFile" accept=".pdf,.jpg,.jpeg,.png" class="hidden" onchange="updateFileName('exp')">
+                        <div id="expUploadBox" onclick="document.getElementById('expFile').click()" class="border-2 border-dashed border-oliveGreen/50 rounded-xl p-4 text-center text-sm text-oliveGreen cursor-pointer hover:bg-oliveGreen/5">
+                            اضغط لاختيار ملف شهادة الخبرة
+                        </div>
+                    </div>
+                </div>
+                <button onclick="submitApplication()" id="btnSubmit" class="w-full bg-oliveGreen text-white font-bold py-3.5 rounded-xl mt-6 hover:bg-oliveLight transition">تقديم الطلب للإدارة</button>
+            </div>
+
+            <!-- Step 2: Success -->
+            <div id="step-2" class="step-content hidden-step text-center py-8">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-oliveGreen mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <h2 class="text-2xl font-bold mb-2">تم استلام طلبك بنجاح!</h2>
+                <p class="text-gray-500 mb-6">سيقوم فريقنا بمراجعة بياناتك وشهاداتك. سيتم تفعيل حسابك والإتصال بك فور الموافقة.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 🔥 إعدادات Firebase
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAO-ziORrLtFb5bgS_byXNzLyDB5VIeLLI",
+            authDomain: "labeeb-app-2026.firebaseapp.com",
+            projectId: "labeeb-app-2026",
+            storageBucket: "labeeb-app-2026.firebasestorage.app",
+            messagingSenderId: "201953565667",
+            appId: "1:201953565667:web:4cee64be63f85e19a99ed6"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // ☁️ إعدادات Cloudinary
+        const CLOUDINARY_CLOUD_NAME = 'f4t8ayoq';
+        const CLOUDINARY_UNSIGNED_PRESET = 'lzgw58tq';
+
+        const citiesMap = {
+            'المملكة العربية السعودية': ['الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'الدمام'],
+            'قطر': ['الدوحة', 'الريان', 'الوكرة', 'الخور', 'الدخيل'],
+            'فلسطين': ['غزة', 'خان يونس', 'القدس', 'رام الله', 'الخليل'],
+            'جمهورية مصر العربية': ['القاهرة', 'الإسكندرية', 'المنصورة'],
+            'الإمارات العربية المتحدة': ['دبي', 'أبو ظبي', 'الشارقة'],
+            'الأردن': ['عمّان', 'الزرقاء', 'إربد']
+        };
+
+        const subjects = [
+            'طب بشري', 'طب أسنان', 'هندسة', 'رياضيات', 'اللغة الإنجليزية', 'علوم', 'التربية الدينية',
+            'كيمياء', 'فيزياء', 'اللغة العربية', 'اللغة الفرنسية', 'تعليم أساسي (تربية أطفال)',
+            'الإحصاء', 'البرمجة', 'علم نفس', 'إدارة أعمال'
+        ];
+        let selectedSpecialties = [];
+
+        const teachingTargetAges = [
+            'روضة الأطفال (تمهيدي)', 'الصف الأول الابتدائي', 'الصف الثاني الابتدائي', 'الصف الثالث الابتدائي',
+            'الصف الرابع الابتدائي', 'الصف الخامس الابتدائي', 'الصف السادس الابتدائي',
+            'الصف الأول المتوسط', 'الصف الثاني المتوسط', 'الصف الثالث المتوسط',
+            'الصف الأول الثانوي', 'الصف الثاني الثانوي', 'الصف الثالث الثانوي',
+            'التعليم الجامعي المستمر'
+        ];
+        let selectedTargetAges = [];
+
+        let selectedDevices = [];
+
+        let selectedTeachingLanguage = null;
+
+        let isSubmitting = false;
+
+        function showSnackBar(text, color) {
+            const snackbar = document.createElement('div');
+            snackbar.className = 'snackbar';
+            snackbar.style.backgroundColor = color;
+            snackbar.innerText = text;
+            document.body.appendChild(snackbar);
+            setTimeout(() => snackbar.remove(), 3500);
+        }
+
+        function updateFileName(type) {
+            const input = document.getElementById(type + 'File');
+            const box = document.getElementById(type + 'UploadBox');
+            if (input.files[0]) {
+                box.innerText = input.files[0].name;
+                box.classList.add('font-bold');
+            }
+        }
+
+        // ==========================================
+        // 🌐 اختيار لغة التدريس (اختيار واحد فقط من الثلاثة)
+        // ==========================================
+        function selectTeachingLanguage(lang) {
+            selectedTeachingLanguage = lang;
+            document.querySelectorAll('.teaching-lang-btn').forEach(btn => {
+                btn.classList.remove('border-oliveGreen', 'bg-oliveGreen/10', 'text-oliveGreen', 'shadow-sm');
+                btn.classList.add('border-gray-200', 'bg-white', 'text-textDark');
+            });
+            const map = { 'العربية': 'lang_ar', 'الإنجليزية (انترناشونال)': 'lang_en', 'كلاهما': 'lang_both' };
+            const activeBtn = document.getElementById(map[lang]);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-gray-200', 'bg-white', 'text-textDark');
+                activeBtn.classList.add('border-oliveGreen', 'bg-oliveGreen/10', 'text-oliveGreen', 'shadow-sm');
+            }
+        }
+
+        // ==========================================
+        // 📱 اختيار الأجهزة (متعدد بنفس تصميم الأزرار)
+        // ==========================================
+        function toggleDeviceSelection(device) {
+            const map = { 'هاتف محمول': 'dev_phone', 'تابلت': 'dev_tablet', 'لابتوب': 'dev_laptop' };
+            const btnId = map[device];
+            const btn = document.getElementById(btnId);
+
+            if (selectedDevices.includes(device)) {
+                selectedDevices = selectedDevices.filter(d => d !== device);
+                btn.classList.remove('border-oliveGreen', 'bg-oliveGreen/10', 'text-oliveGreen', 'shadow-sm');
+                btn.classList.add('border-gray-200', 'bg-white', 'text-textDark');
+            } else {
+                selectedDevices.push(device);
+                btn.classList.remove('border-gray-200', 'bg-white', 'text-textDark');
+                btn.classList.add('border-oliveGreen', 'bg-oliveGreen/10', 'text-oliveGreen', 'shadow-sm');
+            }
+        }
+
+        function renderList(array, containerId, selectedArray) {
+            const list = document.getElementById(containerId);
+            list.innerHTML = '';
+            array.forEach(item => {
+                const btn = document.createElement('button');
+                btn.innerText = item;
+                btn.type = 'button';
+                btn.onclick = () => {
+                    if (selectedArray.includes(item)) {
+                        const index = selectedArray.indexOf(item);
+                        selectedArray.splice(index, 1);
+                        btn.classList.remove('bg-oliveGreen', 'text-white', 'border-oliveGreen');
+                        btn.classList.add('bg-white', 'text-textDark', 'border-gray-300');
+                    } else {
+                        selectedArray.push(item);
+                        btn.classList.add('bg-oliveGreen', 'text-white', 'border-oliveGreen');
+                        btn.classList.remove('bg-white', 'text-textDark', 'border-gray-300');
+                    }
+                };
+                btn.className = 'bg-white border border-gray-300 text-textDark text-xs font-bold py-2 px-3 rounded-lg hover:bg-gray-100 transition';
+                list.appendChild(btn);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderList(subjects, 'specialtyList', selectedSpecialties);
+            renderList(teachingTargetAges, 'targetAgeList', selectedTargetAges);
+
+            document.getElementById('country').addEventListener('change', (e) => {
+                const selectedCountry = e.target.value;
+                const citySelect = document.getElementById('city');
+                citySelect.innerHTML = '<option value="">اختر المدينة</option>';
+                if (citiesMap[selectedCountry]) {
+                    citiesMap[selectedCountry].forEach(c => {
+                        citySelect.innerHTML += `<option>${c}</option>`;
+                    });
+                }
+            });
+        });
+
+        // Anonymous Auth
+        auth.signInAnonymously().catch(error => {
+            console.error("Auth Error:", error);
+        });
+
+        // ==========================================
+        // 🗜️ ضغط الصورة في المتصفح قبل الرفع
+        // (يقلل الحجم بشكل كبير جداً بدون فقدان وضوح النص - الملفات غير الصور مثل PDF لا تتأثر)
+        // ==========================================
+        function compressImageIfNeeded(file) {
+            return new Promise((resolve) => {
+                if (!file.type.startsWith('image/') || file.size < 600 * 1024) {
+                    resolve(file);
+                    return;
+                }
+
+                const img = new Image();
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    img.onload = () => {
+                        const MAX_DIMENSION = 1600; // أقصى عرض/ارتفاع كافٍ جداً لقراءة نص بوضوح
+                        let { width, height } = img;
+
+                        if (width > height && width > MAX_DIMENSION) {
+                            height = Math.round(height * (MAX_DIMENSION / width));
+                            width = MAX_DIMENSION;
+                        } else if (height > MAX_DIMENSION) {
+                            width = Math.round(width * (MAX_DIMENSION / height));
+                            height = MAX_DIMENSION;
+                        }
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+
+                        canvas.toBlob((blob) => {
+                            if (!blob) { resolve(file); return; }
+                            resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+                        }, 'image/jpeg', 0.8);
+                    };
+                    img.onerror = () => resolve(file); // فشل التحميل؟ نرفع الملف الأصلي بدل ما نوقف العملية
+                    img.src = e.target.result;
+                };
+                reader.onerror = () => resolve(file);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // ==========================================
+        // ☁️ رفع الملفات مباشرة إلى Cloudinary (بدون إيقاف افتراضي)
+        // ==========================================
+        async function uploadFileToCloudinary(file, folderName) {
+            const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', CLOUDINARY_UNSIGNED_PRESET);
+            formData.append('folder', folderName);
+
+            try {
+                const res = await fetch(url, { method: 'POST', body: formData });
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    console.error("Cloudinary Error Details:", errData);
+                    throw new Error(`فشل الرفع: ${errData.error?.message || 'حجم الملف كبير جداً أو الإعداد غير صحيح'}`);
+                }
+                const data = await res.json();
+                return data.secure_url;
+            } catch (err) {
+                console.error("Fetch Error:", err);
+                throw err;
+            }
+        }
+
+        // ==========================================
+        // 📝 حفظ البيانات
+        // ==========================================
+        async function submitApplication() {
+            if (isSubmitting) return;
+
+            const countryCode = document.getElementById('countryCode').value;
+            const phone = document.getElementById('phoneNumber').value.trim();
+            const fullName = document.getElementById('fullName').value.trim();
+            const country = document.getElementById('country').value;
+            const city = document.getElementById('city').value;
+            const certFile = document.getElementById('certFile').files[0];
+            const idFile = document.getElementById('idFile').files[0];
+            const expFile = document.getElementById('expFile').files[0];
+
+            if (!phone || !fullName || !country || !city || selectedSpecialties.length === 0 || selectedTargetAges.length === 0 || selectedDevices.length === 0 || !selectedTeachingLanguage || !certFile || !idFile || !expFile) {
+                showSnackBar('يرجى تعبئة جميع الحقول واختيار لغة التدريس والأجهزة المملوكة ورفع الملفات', '#D97706'); return;
+            }
+
+            isSubmitting = true;
+            const btn = document.getElementById('btnSubmit');
+            btn.disabled = true;
+            btn.innerText = 'جاري التحقق...';
+
+            try {
+                const user = auth.currentUser;
+                if (!user) {
+                    throw new Error('تعذر المصادقة، يرجى تحديث الصفحة');
+                }
+
+                // 0. ضغط الصور أولاً (لو كانت صور فعلاً) لتقليل حجم الرفع بشكل كبير
+                btn.innerText = 'جاري تجهيز الملفات...';
+                const [compressedCert, compressedId, compressedExp] = await Promise.all([
+                    compressImageIfNeeded(certFile),
+                    compressImageIfNeeded(idFile),
+                    compressImageIfNeeded(expFile)
+                ]);
+
+                // 1+2+3. رفع الشهادة والهوية وشهادة الخبرة معاً بالتوازي (مش بالتتابع)
+                btn.innerText = 'جاري رفع الملفات...';
+                const [certUrl, idUrl, expUrl] = await Promise.all([
+                    uploadFileToCloudinary(compressedCert, 'certificates'),
+                    uploadFileToCloudinary(compressedId, 'identity_documents'),
+                    uploadFileToCloudinary(compressedExp, 'experience_certificates')
+                ]);
+
+                // 3. حفظ البيانات
+                btn.innerText = 'جاري حفظ البيانات...';
+                const fullPhone = `${countryCode}${phone}`;
+                await db.collection('users').doc(user.uid).set({
+                    uid: user.uid,
+                    name: fullName,
+                    phone: fullPhone,
+                    role: 'teacher',
+                    country: country,
+                    city: city,
+                    subjects: selectedSpecialties, 
+                    targetAge: selectedTargetAges,
+                    teachingLanguage: selectedTeachingLanguage,
+                    ownedDevices: selectedDevices,
+                    certificates: [certUrl],
+                    certificateUrl: certUrl,
+                    identityUrl: idUrl,
+                    experienceCertificateUrl: expUrl,
+                    identityFileName: idFile.name,
+                    status: 'pending_approval',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+
+                // 4. النجاح
+                document.getElementById('step-1').classList.add('hidden-step');
+                document.getElementById('step-2').classList.remove('hidden-step');
+
+            } catch (error) {
+                console.error("Submit Error:", error);
+                showSnackBar(`حدث خطأ: ${error.message}`, '#ef4444');
+                btn.disabled = false;
+                btn.innerText = 'تقديم الطلب للإدارة';
+            } finally {
+                isSubmitting = false;
+            }
+        }
+    </script>
+</body>
+</html>
