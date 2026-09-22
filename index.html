@@ -42,7 +42,7 @@
 
     <!-- Header / Hero Section -->
     <div class="max-w-5xl mx-auto px-6 pt-16 pb-8 text-center">
-<img src="logo.png" alt="لوجو لبيب" class="h-[800px] w-auto mx-auto mb-8 object-contain">
+        <img src="logo.png" alt="لوجو لبيب" class="h-32 w-auto mx-auto mb-8 object-contain">
         
         <h1 class="text-3xl md:text-5xl font-black mb-6 leading-tight">
             هل تريد أن تكون جزءاً من <span class="text-oliveGreen">مستقبل التعليم</span> في قطر؟
@@ -182,7 +182,7 @@
                         </div>
                     </div>
 
-                    <!-- الأجهزة المملوكة (تم استخدام أيقونات احترافية لكل جهاز) -->
+                    <!-- الأجهزة المملوكة -->
                     <div>
                         <label class="text-sm font-bold block mb-2">هل تمتلك جهاز (هاتف محمول , تابلت , لابتوب)؟ (يمكنك اختيار أكثر من جهاز):</label>
                         <div class="grid grid-cols-3 gap-2">
@@ -204,7 +204,29 @@
                         </div>
                     </div>
 
-                    <!-- رفع الملفات -->
+                    <!-- الدرجة العلمية العليا (خانة جديدة) -->
+                    <div>
+                        <label class="text-sm font-bold block mb-2">هل تمتلك درجة علمية عليا (ماجستير، دكتوراه)؟</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" id="deg_none" onclick="selectAcademicDegree('لا أملك')"
+                                class="degree-btn flex flex-col items-center justify-center gap-1 py-3 px-2 rounded-xl border-2 border-gray-200 bg-white text-textDark text-xs font-bold transition hover:border-oliveGreen/50">
+                                <span class="text-2xl">🚫</span>
+                                <span>لا أملك</span>
+                            </button>
+                            <button type="button" id="deg_master" onclick="selectAcademicDegree('ماجستير')"
+                                class="degree-btn flex flex-col items-center justify-center gap-1 py-3 px-2 rounded-xl border-2 border-gray-200 bg-white text-textDark text-xs font-bold transition hover:border-oliveGreen/50">
+                                <span class="text-2xl">🎓</span>
+                                <span>ماجستير</span>
+                            </button>
+                            <button type="button" id="deg_phd" onclick="selectAcademicDegree('دكتوراه')"
+                                class="degree-btn flex flex-col items-center justify-center gap-1 py-3 px-2 rounded-xl border-2 border-gray-200 bg-white text-textDark text-xs font-bold transition hover:border-oliveGreen/50">
+                                <span class="text-2xl">🧑‍🏫</span>
+                                <span>دكتوراه</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- رفع الملفات الأساسية -->
                     <div>
                         <label class="text-sm font-bold block mb-2">رفع الشهادة الجامعية (PDF/صورة)</label>
                         <input type="file" id="certFile" accept=".pdf,.jpg,.jpeg,.png" class="hidden" onchange="updateFileName('cert')">
@@ -212,6 +234,16 @@
                             اضغط لاختيار ملف الشهادة
                         </div>
                     </div>
+
+                    <!-- رفع شهادة الدرجة العلمية العليا (يظهر فقط إذا اختار ماجستير أو دكتوراه) -->
+                    <div id="advDegreeUploadContainer" class="hidden">
+                        <label class="text-sm font-bold block mb-2">رفع شهادة الدرجة العلمية العليا (PDF/صورة) - إجباري</label>
+                        <input type="file" id="advDegFile" accept=".pdf,.jpg,.jpeg,.png" class="hidden" onchange="updateFileName('advDeg')">
+                        <div id="advDegUploadBox" onclick="document.getElementById('advDegFile').click()" class="border-2 border-dashed border-accentGold/50 rounded-xl p-4 text-center text-sm text-accentGold cursor-pointer hover:bg-accentGold/5">
+                            اضغط لاختيار ملف شهادة (الماجستير/الدكتوراه)
+                        </div>
+                    </div>
+
                     <div>
                         <label class="text-sm font-bold block mb-2">رفع الهوية الشخصية (PDF/صورة)</label>
                         <input type="file" id="idFile" accept=".pdf,.jpg,.jpeg,.png" class="hidden" onchange="updateFileName('id')">
@@ -284,11 +316,9 @@
             'التعليم الجامعي المستمر'
         ];
         let selectedTargetAges = [];
-
         let selectedDevices = [];
-
         let selectedTeachingLanguage = null;
-
+        let selectedAcademicDegree = null; // جديد: الدرجة العلمية
         let isSubmitting = false;
 
         function showSnackBar(text, color) {
@@ -309,9 +339,6 @@
             }
         }
 
-        // ==========================================
-        // 🌐 اختيار لغة التدريس (اختيار واحد فقط من الثلاثة)
-        // ==========================================
         function selectTeachingLanguage(lang) {
             selectedTeachingLanguage = lang;
             document.querySelectorAll('.teaching-lang-btn').forEach(btn => {
@@ -326,9 +353,6 @@
             }
         }
 
-        // ==========================================
-        // 📱 اختيار الأجهزة (متعدد بنفس تصميم الأزرار)
-        // ==========================================
         function toggleDeviceSelection(device) {
             const map = { 'هاتف محمول': 'dev_phone', 'تابلت': 'dev_tablet', 'لابتوب': 'dev_laptop' };
             const btnId = map[device];
@@ -342,6 +366,34 @@
                 selectedDevices.push(device);
                 btn.classList.remove('border-gray-200', 'bg-white', 'text-textDark');
                 btn.classList.add('border-oliveGreen', 'bg-oliveGreen/10', 'text-oliveGreen', 'shadow-sm');
+            }
+        }
+
+        // ==========================================
+        // 🎓 اختيار الدرجة العلمية (وإظهار/إخفاء رفع الشهادة)
+        // ==========================================
+        function selectAcademicDegree(degree) {
+            selectedAcademicDegree = degree;
+            document.querySelectorAll('.degree-btn').forEach(btn => {
+                btn.classList.remove('border-oliveGreen', 'bg-oliveGreen/10', 'text-oliveGreen', 'shadow-sm');
+                btn.classList.add('border-gray-200', 'bg-white', 'text-textDark');
+            });
+            const map = { 'لا أملك': 'deg_none', 'ماجستير': 'deg_master', 'دكتوراه': 'deg_phd' };
+            const activeBtn = document.getElementById(map[degree]);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-gray-200', 'bg-white', 'text-textDark');
+                activeBtn.classList.add('border-oliveGreen', 'bg-oliveGreen/10', 'text-oliveGreen', 'shadow-sm');
+            }
+
+            // إظهار أو إخفاء مربع رفع الشهادة العليا
+            const uploadContainer = document.getElementById('advDegreeUploadContainer');
+            if (degree === 'ماجستير' || degree === 'دكتوراه') {
+                uploadContainer.classList.remove('hidden');
+            } else {
+                uploadContainer.classList.add('hidden');
+                // مسح الملف إذا تم تغيير الاختيار إلى "لا أملك"
+                document.getElementById('advDegFile').value = '';
+                document.getElementById('advDegUploadBox').innerText = 'اضغط لاختيار ملف شهادة (الماجستير/الدكتوراه)';
             }
         }
 
@@ -385,15 +437,10 @@
             });
         });
 
-        // Anonymous Auth
         auth.signInAnonymously().catch(error => {
             console.error("Auth Error:", error);
         });
 
-        // ==========================================
-        // 🗜️ ضغط الصورة في المتصفح قبل الرفع
-        // (يقلل الحجم بشكل كبير جداً بدون فقدان وضوح النص - الملفات غير الصور مثل PDF لا تتأثر)
-        // ==========================================
         function compressImageIfNeeded(file) {
             return new Promise((resolve) => {
                 if (!file.type.startsWith('image/') || file.size < 600 * 1024) {
@@ -406,7 +453,7 @@
 
                 reader.onload = (e) => {
                     img.onload = () => {
-                        const MAX_DIMENSION = 1600; // أقصى عرض/ارتفاع كافٍ جداً لقراءة نص بوضوح
+                        const MAX_DIMENSION = 1600;
                         let { width, height } = img;
 
                         if (width > height && width > MAX_DIMENSION) {
@@ -427,7 +474,7 @@
                             resolve(new File([blob], file.name, { type: 'image/jpeg' }));
                         }, 'image/jpeg', 0.8);
                     };
-                    img.onerror = () => resolve(file); // فشل التحميل؟ نرفع الملف الأصلي بدل ما نوقف العملية
+                    img.onerror = () => resolve(file);
                     img.src = e.target.result;
                 };
                 reader.onerror = () => resolve(file);
@@ -435,9 +482,6 @@
             });
         }
 
-        // ==========================================
-        // ☁️ رفع الملفات مباشرة إلى Cloudinary (بدون إيقاف افتراضي)
-        // ==========================================
         async function uploadFileToCloudinary(file, folderName) {
             const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
             const formData = new FormData();
@@ -460,9 +504,6 @@
             }
         }
 
-        // ==========================================
-        // 📝 حفظ البيانات
-        // ==========================================
         async function submitApplication() {
             if (isSubmitting) return;
 
@@ -474,9 +515,19 @@
             const certFile = document.getElementById('certFile').files[0];
             const idFile = document.getElementById('idFile').files[0];
             const expFile = document.getElementById('expFile').files[0];
+            
+            // التحقق من المدخلات الأساسية بما فيها الدرجة العلمية
+            if (!phone || !fullName || !country || !city || selectedSpecialties.length === 0 || selectedTargetAges.length === 0 || selectedDevices.length === 0 || !selectedTeachingLanguage || !selectedAcademicDegree || !certFile || !idFile || !expFile) {
+                showSnackBar('يرجى تعبئة جميع الحقول واختيار لغة التدريس والأجهزة والدرجة العلمية ورفع الملفات', '#D97706'); return;
+            }
 
-            if (!phone || !fullName || !country || !city || selectedSpecialties.length === 0 || selectedTargetAges.length === 0 || selectedDevices.length === 0 || !selectedTeachingLanguage || !certFile || !idFile || !expFile) {
-                showSnackBar('يرجى تعبئة جميع الحقول واختيار لغة التدريس والأجهزة المملوكة ورفع الملفات', '#D97706'); return;
+            // التحقق من شهادة الدرجة العليا (إجباري إذا اختار ماجستير أو دكتوراه)
+            let advDegFile = null;
+            if (selectedAcademicDegree === 'ماجستير' || selectedAcademicDegree === 'دكتوراه') {
+                advDegFile = document.getElementById('advDegFile').files[0];
+                if (!advDegFile) {
+                    showSnackBar('يرجى رفع ملف شهادة الدرجة العلمية العليا (الماجستير/الدكتوراه)', '#D97706'); return;
+                }
             }
 
             isSubmitting = true;
@@ -490,26 +541,33 @@
                     throw new Error('تعذر المصادقة، يرجى تحديث الصفحة');
                 }
 
-                // 0. ضغط الصور أولاً (لو كانت صور فعلاً) لتقليل حجم الرفع بشكل كبير
                 btn.innerText = 'جاري تجهيز الملفات...';
-                const [compressedCert, compressedId, compressedExp] = await Promise.all([
+                const [compressedCert, compressedId, compressedExp, compressedAdvDeg] = await Promise.all([
                     compressImageIfNeeded(certFile),
                     compressImageIfNeeded(idFile),
-                    compressImageIfNeeded(expFile)
+                    compressImageIfNeeded(expFile),
+                    advDegFile ? compressImageIfNeeded(advDegFile) : Promise.resolve(null)
                 ]);
 
-                // 1+2+3. رفع الشهادة والهوية وشهادة الخبرة معاً بالتوازي (مش بالتتابع)
                 btn.innerText = 'جاري رفع الملفات...';
+                // رفع الشهادات الأساسية
                 const [certUrl, idUrl, expUrl] = await Promise.all([
                     uploadFileToCloudinary(compressedCert, 'certificates'),
                     uploadFileToCloudinary(compressedId, 'identity_documents'),
                     uploadFileToCloudinary(compressedExp, 'experience_certificates')
                 ]);
 
-                // 3. حفظ البيانات
+                // رفع شهادة الدرجة العليا (إن وجدت)
+                let advDegUrl = null;
+                if (compressedAdvDeg) {
+                    advDegUrl = await uploadFileToCloudinary(compressedAdvDeg, 'advanced_degrees');
+                }
+
                 btn.innerText = 'جاري حفظ البيانات...';
                 const fullPhone = `${countryCode}${phone}`;
-                await db.collection('users').doc(user.uid).set({
+                
+                // تجهيز البيانات للحفظ
+                const userData = {
                     uid: user.uid,
                     name: fullName,
                     phone: fullPhone,
@@ -520,6 +578,7 @@
                     targetAge: selectedTargetAges,
                     teachingLanguage: selectedTeachingLanguage,
                     ownedDevices: selectedDevices,
+                    academicDegree: selectedAcademicDegree, // حفظ الدرجة العلمية
                     certificates: [certUrl],
                     certificateUrl: certUrl,
                     identityUrl: idUrl,
@@ -527,9 +586,16 @@
                     identityFileName: idFile.name,
                     status: 'pending_approval',
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
+                };
 
-                // 4. النجاح
+                // إضافة رابط شهادة الدرجة العليا فقط إذا تم رفعه
+                if (advDegUrl) {
+                    userData.advancedDegreeCertificateUrl = advDegUrl;
+                }
+
+                await db.collection('users').doc(user.uid).set(userData, { merge: true });
+
+                // النجاح
                 document.getElementById('step-1').classList.add('hidden-step');
                 document.getElementById('step-2').classList.remove('hidden-step');
 
